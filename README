@@ -1,2 +1,6 @@
+Implementation of spring-security using <a href="http://www.springsource.org/spring-data/jpa">Spring Data-JPA</a>.
+
+See http://static.springsource.org/spring-data/data-mongodb/docs/current/reference/html
+
 Requires an instance of mongodb listening on port 27017 (default). See http://www.mongodb.org/display/DOCS/Quickstart
 for installation instructions.

@@ -1,4 +1,4 @@
-Implementation of spring-security using <a href="http://www.springsource.org/spring-data/jpa">Spring Data-JPA</a>.
+Implementation of spring-security using Spring Data-MongoDB.
 
 See http://static.springsource.org/spring-data/data-mongodb/docs/current/reference/html
 

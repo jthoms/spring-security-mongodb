@@ -1,2 +1,2 @@
 Requires an instance of mongodb listening on port 27017 (default). See http://www.mongodb.org/display/DOCS/Quickstart
-for installation instructions.s
+for installation instructions.

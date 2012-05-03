@@ -23,7 +23,5 @@
 
   	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" 
   			c:mongo-ref="mongo" c:databaseName="${mongo.db.name}"/>
-  			
- 	<import resource="security-context.xml"/>
      
 </beans>

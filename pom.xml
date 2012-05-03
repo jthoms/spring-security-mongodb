@@ -12,8 +12,8 @@
 
 		<spring.core.version>3.1.1.RELEASE</spring.core.version>
 		<spring.security.version>3.1.0.RELEASE</spring.security.version>
-<!-- 		<spring.data.mongodb.version>1.1.0.BUILD-SNAPSHOT</spring.data.mongodb.version> -->
-
+<!-- 		<spring.data.mongodb.version>1.1.0.BUILD-SNAPSHOT</spring.data.mongodb.version>
+ -->
  		<spring.data.mongodb.version>1.0.1.RELEASE</spring.data.mongodb.version>
  		
 		<cglib.version>2.2</cglib.version>
@@ -24,7 +24,6 @@
 		<log4j.version>1.2.14</log4j.version>
 
 		<javax.servlet-api.version>2.5</javax.servlet-api.version>
-		<javax.jstl-taglibs.version>1.1.2</javax.jstl-taglibs.version>
 		<jackson.version>1.9.6</jackson.version>
 
 		<mockito.version>1.8.5</mockito.version>
@@ -33,10 +32,10 @@
 		<maven.copy.plugin.version>0.2.3</maven.copy.plugin.version>
 		<maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
 		<maven.apt.plugin.version>1.0</maven.apt.plugin.version>
+    	<thymeleaf.version>2.0.6</thymeleaf.version>
 	</properties>
 
 	<dependencies>
-		<!-- Spring Core -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -113,11 +112,6 @@
 			<artifactId>spring-security-web</artifactId>
 			<version>${spring.security.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-taglibs</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
 		
 		<dependency>
 			<groupId>org.aspectj</groupId>
@@ -144,16 +138,11 @@
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>${javax.jstl-taglibs.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>taglibs</groupId>
-			<artifactId>standard</artifactId>
-			<version>${javax.jstl-taglibs.version}</version>
+			<artifactId>servlet-api</artifactId>
+			<version>${javax.servlet-api.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
-		<!-- Logger -->
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
@@ -182,12 +171,7 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>${javax.servlet-api.version}</version>
-			<scope>provided</scope>
-		</dependency>
+
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
@@ -210,24 +194,34 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf</artifactId>
+			<version>${thymeleaf.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf-spring3</artifactId>
+			<version>${thymeleaf.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
-			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 			<version>${mockito.version}</version>
-			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${spring.core.version}</version>
-			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -236,7 +230,6 @@
 			<version>1.1</version>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 
 	<build>

@@ -15,7 +15,7 @@ import com.sustia.domain.Role;
 import com.sustia.domain.UserAccount;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:/test-context.xml")
+@ContextConfiguration(locations = "classpath:META-INF/spring/ApplicationContext.xml")
 public abstract class AbstractMongoTest {
 
 	@Autowired

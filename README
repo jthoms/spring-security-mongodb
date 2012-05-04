@@ -5,7 +5,14 @@ See http://static.springsource.org/spring-data/data-mongodb/docs/current/referen
 Requires an instance of mongodb listening on port 27017 (default). See http://www.mongodb.org/display/DOCS/Quickstart
 for installation instructions.
 
-Test layer:
+-Test layer:
 Run: mvn clean test
 
-Added web layer using Thymeleaf template engine, see http://www.thymeleaf.org/documentation.html
+-Added web layer using Thymeleaf template engine, see http://www.thymeleaf.org/documentation.html
+Run: mvn clean jetty:run
+visit localhost:8080/spring-security-mongodb
+
+-Added standalone jetty war maven profile 
+mvn -Pstandalone -DskipTests=true clean package
+java -jar target/spring-security-mongodb-1.0.0-BUILD-SNAPSHOT.war
+visit localhost:8080

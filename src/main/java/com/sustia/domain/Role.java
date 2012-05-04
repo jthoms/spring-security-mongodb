@@ -11,6 +11,15 @@ public class Role {
 	@Id
 	private String id;
 		
+	public Role() {
+		super();
+	}
+	
+	public Role(String id) {
+		super();
+		this.setId(id);
+	}
+
 	public String getId() {
 		return id;
 	}

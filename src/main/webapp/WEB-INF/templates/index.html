@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Thymeleafexamples - Spring security</title>
+        <title>Example:Spring security, mongoDB, and Thymeleaf</title>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" />
     </head>
@@ -10,8 +10,8 @@
             Logged user: <span th:text="${#httpServletRequest.userPrincipal.name}">Bob</span> |
             <a href="index.html" th:href="@{/j_spring_security_logout}">Logout</a>
         </div>
-        <h1>Thymeleafexamples - Spring security</h1>
-        <p>This is a demo of Thymeleaf and Spring-security integration.</p>
+        <h1>Example:Spring security, mongoDB, and Thymeleaf</h1>
+        <p>Demo: role-based authentication.</p>
         <h2>Private pages</h2>
         <p>This is a public page, but you can navigate to protected pages to trigger authentication.</p>
         <ul>

@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.sustia</groupId>
-	<artifactId>example</artifactId>
+	<artifactId>spring-security-mongodb</artifactId>
 	<name>spring-security-mongodb</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
@@ -25,15 +25,103 @@
 
 		<javax.servlet-api.version>2.5</javax.servlet-api.version>
 		<jackson.version>1.9.6</jackson.version>
+    	<thymeleaf.version>2.0.6</thymeleaf.version>
 
 		<mockito.version>1.8.5</mockito.version>
 		<junit.version>4.10</junit.version>
 
-		<maven.copy.plugin.version>0.2.3</maven.copy.plugin.version>
+		<maven.war.plugin.version>2.2</maven.war.plugin.version>
+		<maven.shade.plugin.version>1.6</maven.shade.plugin.version>
 		<maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
 		<maven.apt.plugin.version>1.0</maven.apt.plugin.version>
-    	<thymeleaf.version>2.0.6</thymeleaf.version>
+		
+		<jetty.version>8.1.3.v20120416</jetty.version>
 	</properties>
+	
+    <profiles>
+    	<profile>
+			<id>standalone</id>
+    		<dependencies>
+		        <dependency>
+		        	<groupId>org.eclipse.jetty</groupId>
+		        	<artifactId>jetty-server</artifactId>
+		        	<version>${jetty.version}</version>
+		        </dependency>
+				<dependency>
+				   <groupId>org.eclipse.jetty</groupId>
+				   <artifactId>jetty-webapp</artifactId>
+				   <version>${jetty.version}</version>
+				</dependency>		
+				<dependency>
+					<groupId>org.apache.commons</groupId>
+					<artifactId>commons-lang3</artifactId>
+					<version>${commons-lang3.version}</version>
+				</dependency>
+    		</dependencies>
+    		<build>
+    			<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-shade-plugin</artifactId>
+						<version>${maven.shade.plugin.version}</version>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>shade</goal>
+								</goals>
+								<configuration>
+									<createDependencyReducedPom>true</createDependencyReducedPom>
+									<transformers>
+										<transformer
+											implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+											<mainClass>com.sustia.Launcher</mainClass>
+										</transformer>
+									</transformers>
+					              <filters>
+					                <filter>
+					                  <artifact>*:*</artifact>
+					                  <excludes>
+					                    <exclude>META-INF/*.SF</exclude>
+					                    <exclude>META-INF/*.DSA</exclude>
+					                    <exclude>META-INF/*.RSA</exclude>
+					                  </excludes>
+					                </filter>
+					              </filters>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+            		<plugin>
+		            	<artifactId>maven-antrun-plugin</artifactId>
+		            	<executions>
+		            		<execution>
+		            			<id>main-class</id>
+		            			<phase>prepare-package</phase>
+		            			<configuration>
+		            				<tasks>
+		            					<move todir="${project.build.directory}/${project.artifactId}-${project.version}/com/sustia/">
+		            						<fileset dir="${project.build.directory}/classes/com/sustia/">
+		            							<include name="Launcher.class"/>
+		            						</fileset>
+		           						</move>
+		            					<move todir="${project.build.directory}/${project.artifactId}-${project.version}/">
+		            						<fileset dir="${project.build.directory}/classes/">
+		            							<include name="log4j.xml"/>
+		            						</fileset>
+		           						</move>
+		          					</tasks>
+		          				</configuration>
+		          				<goals>
+		          					<goal>run</goal>
+		         				</goals>
+		         			</execution>
+		         		</executions>
+		         	</plugin>
+    			</plugins>
+    		</build>
+    	</profile>
+    </profiles>
 
 	<dependencies>
 		<dependency>
@@ -205,7 +293,18 @@
 			<version>${thymeleaf.version}</version>
 			<scope>compile</scope>
 		</dependency>
-		
+		<dependency>
+		   <groupId>org.eclipse.jetty</groupId>
+		   <artifactId>jetty-server</artifactId>
+		   <version>${jetty.version}</version>
+		   <scope>provided</scope>
+		</dependency>
+		<dependency>
+		   <groupId>org.eclipse.jetty</groupId>
+		   <artifactId>jetty-webapp</artifactId>
+		   <version>${jetty.version}</version>
+		   <scope>provided</scope>
+		</dependency>		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -233,9 +332,8 @@
 	</dependencies>
 
 	<build>
-		<finalName>spring-security-mongodb</finalName>
-
-		<plugins>
+<!-- 		<finalName>spring-security-mongodb</finalName>
+ -->		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -245,24 +343,24 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.1.1</version>
-            </plugin>
-            <plugin>
-                <groupId>org.mortbay.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>8.1.2.v20120308</version>
-                <configuration>
-                	<webAppConfig>
-            			<contextPath>/spring-security-mongodb</contextPath>
-            		</webAppConfig>
-                    <scanIntervalSeconds>1</scanIntervalSeconds>
-                    <stopKey>stop-jetty</stopKey>
-                    <stopPort>9999</stopPort>
-                </configuration>
-            </plugin>            
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${maven.war.plugin.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>${jetty.version}</version>
+				<configuration>
+					<webAppConfig>
+						<contextPath>/spring-security-mongodb</contextPath>
+					</webAppConfig>
+					<scanIntervalSeconds>1</scanIntervalSeconds>
+					<stopKey>stop-jetty</stopKey>
+					<stopPort>9999</stopPort>
+				</configuration>
+			</plugin>
 		</plugins>
 
 	</build>

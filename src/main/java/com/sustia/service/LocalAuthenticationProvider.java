@@ -2,6 +2,8 @@ package com.sustia.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +28,8 @@ import com.sustia.domain.UserAccount;
 @Component
 public class LocalAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 	
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
     UserService userService;
 	
@@ -43,17 +47,21 @@ public class LocalAuthenticationProvider extends AbstractUserDetailsAuthenticati
 			throws AuthenticationException {
         String password = (String) authentication.getCredentials();
         if (!StringUtils.hasText(password)) {
+        	logger.warn("Username {}: no password provided", username);
             throw new BadCredentialsException("Please enter password");
         }
 
         UserAccount user = userService.getByUsernameAndPassword(username, encoder.encodePassword(password, null));
         if (user == null) {
+        	logger.warn("Username {}, password {}: username and password not found", username, password);
             throw new BadCredentialsException("Invalid Username/Password");
         }
         if (!(UserAccountStatus.STATUS_APPROVED.name().equals(user.getStatus()))) {
+        	logger.warn("Username {}: not approved", username);
             throw new BadCredentialsException("User has not been approved");
         }
         if (!user.getEnabled()) {
+        	logger.warn("Username {}: disabled", username);
             throw new BadCredentialsException("User disabled");
         }
 

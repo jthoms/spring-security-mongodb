@@ -2,6 +2,8 @@ package com.sustia.service;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -18,6 +20,8 @@ import com.sustia.domain.UserAccount;
 @Profile(value="DEV")
 public class DataInitializer {
 	
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	private MongoTemplate mongoTemplate;
 	
@@ -28,6 +32,8 @@ public class DataInitializer {
 	
 	@PostConstruct
 	public void init() {
+		logger.debug("initializing data");
+		
 		//clear all collections
 		mongoTemplate.dropCollection("role");
 		mongoTemplate.dropCollection("userAccount");

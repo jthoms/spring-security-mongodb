@@ -94,8 +94,7 @@ public class UserAccount {
 	
 	public void removeRole(Role role) {
 		//use iterator to avoid java.util.ConcurrentModificationException with foreach
-		for (Iterator<Role> iter = this.roles.iterator(); iter.hasNext(); )
-		{
+		for (Iterator<Role> iter = this.roles.iterator(); iter.hasNext(); ) {
 		   if (iter.next().equals(role))
 		      iter.remove();
 		}
@@ -103,8 +102,7 @@ public class UserAccount {
 	
 	public String getRolesCSV() {
 		StringBuilder sb = new StringBuilder();
-		for (Iterator<Role> iter = this.roles.iterator(); iter.hasNext(); )
-		{
+		for (Iterator<Role> iter = this.roles.iterator(); iter.hasNext(); ) {
 		   sb.append(iter.next().getId());
 		   if (iter.hasNext()) {
 			   sb.append(',');

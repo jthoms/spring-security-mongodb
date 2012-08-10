@@ -7,7 +7,6 @@ import static org.junit.Assert.assertThat;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,8 +18,7 @@ public class RepositoryTest extends AbstractMongoTest {
 	
 	@Autowired
 	private UserAccountRepository userRepository;
-	@Autowired
-	private UARepository uaRepository;
+
 	
 	@Autowired
 	private RoleRepository roleRepository;
@@ -158,12 +156,6 @@ public class RepositoryTest extends AbstractMongoTest {
 		
 		users = userRepository.findAll();
 		assertThat(users.size(), is(0));
-	}
-	
-	@Ignore
-	public void isolateFailingTest() throws Exception {
-		UserAccount user = uaRepository.findByUsernameAndPassword("jd", super.testPasswordEncoded);
-		assertThat(user, is(nullValue()));
 	}
 
 }

@@ -25,7 +25,7 @@ public class UserService {
 		return roleRepository.findOne(role);
 	}
 	
-	boolean create(UserAccount user) {
+	public boolean create(UserAccount user) {
 		Assert.isNull(user.getId());
 //		user.setId(UUID.randomUUID().toString().replace("-", ""));
 		// duplicate username
@@ -38,12 +38,12 @@ public class UserService {
 		return true;
 	}
 	
-	void save(UserAccount user) {
+	public void save(UserAccount user) {
 		Assert.notNull(user.getId());
 		userRepository.save(user);
 	}
 	
-	void delete(UserAccount user) {
+	public void delete(UserAccount user) {
 		Assert.notNull(user.getId());
 		userRepository.delete(user);
 	}

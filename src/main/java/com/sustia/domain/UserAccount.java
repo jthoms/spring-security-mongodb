@@ -7,9 +7,9 @@ import java.util.List;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.data.annotation.Id;
-//import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+//import org.springframework.data.mongodb.core.index.Indexed;
 
 @Document
 public class UserAccount {
@@ -17,7 +17,7 @@ public class UserAccount {
 	@Id
 	private String id;
 // does not currently work, see RepositoryTest.userDuplicate()
-//	@Indexed(unique = true, dropDups = true)
+//	@Indexed(name = "username" , unique = true, direction = IndexDirection.DESCENDING, dropDups = true)
 	private String username;
 	private String password;
 	private String firstname;
@@ -94,7 +94,8 @@ public class UserAccount {
 	
 	public void removeRole(Role role) {
 		//use iterator to avoid java.util.ConcurrentModificationException with foreach
-		for (Iterator<Role> iter = this.roles.iterator(); iter.hasNext(); ) {
+		for (Iterator<Role> iter = this.roles.iterator(); iter.hasNext(); )
+		{
 		   if (iter.next().equals(role))
 		      iter.remove();
 		}
@@ -102,7 +103,8 @@ public class UserAccount {
 	
 	public String getRolesCSV() {
 		StringBuilder sb = new StringBuilder();
-		for (Iterator<Role> iter = this.roles.iterator(); iter.hasNext(); ) {
+		for (Iterator<Role> iter = this.roles.iterator(); iter.hasNext(); )
+		{
 		   sb.append(iter.next().getId());
 		   if (iter.hasNext()) {
 			   sb.append(',');

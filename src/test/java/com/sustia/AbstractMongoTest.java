@@ -31,7 +31,7 @@ public abstract class AbstractMongoTest {
 		//clear all collections
 		mongoTemplate.dropCollection("role");
 		mongoTemplate.dropCollection("userAccount");
-		//see UserAccount.username definition: @Indexed does not work, but this does (sdm 1.1.0.RELEASE)
+		//see UserAccount.username definition: @Indexed does not work, but this does (sdm 1.1.1.RELEASE)
 		//see RepositoryTest.userDuplicate()
 		mongoTemplate.indexOps(UserAccount.class).ensureIndex(new Index().on("username", Order.DESCENDING).unique(Duplicates.DROP));
 		

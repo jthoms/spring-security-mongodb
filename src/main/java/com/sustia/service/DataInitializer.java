@@ -59,11 +59,21 @@ public class DataInitializer {
 		user.setFirstname("Jim");
 		user.setLastname("Doe");
 		user.setPassword(demoPasswordEncoded);
-		user.addRole(userService.getRole("ROLE_USER"));
 		user.addRole(userService.getRole("ROLE_ADMIN"));
 		user.setUsername("jim");	
 		userService.create(user);
-		//simulate account activation
+		user.setEnabled(true);
+		user.setStatus(UserAccountStatus.STATUS_APPROVED.name());
+		userService.save(user);
+		
+		user = new UserAccount();
+		user.setFirstname("Ted");
+		user.setLastname("Doe");
+		user.setPassword(demoPasswordEncoded);
+		user.addRole(userService.getRole("ROLE_USER"));
+		user.addRole(userService.getRole("ROLE_ADMIN"));
+		user.setUsername("ted");	
+		userService.create(user);
 		user.setEnabled(true);
 		user.setStatus(UserAccountStatus.STATUS_APPROVED.name());
 		userService.save(user);

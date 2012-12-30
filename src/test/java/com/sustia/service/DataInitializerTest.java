@@ -36,7 +36,11 @@ public class DataInitializerTest {
 		
 		UserAccount user = service.getByUsername("bob");
 		assertThat(user.getRolesCSV(), is("ROLE_USER"));
+		
 		user = service.getByUsername("jim");
+		assertThat(user.getRolesCSV(), is("ROLE_ADMIN"));
+		
+		user = service.getByUsername("ted");
 		assertThat(user.getRolesCSV(), is("ROLE_USER,ROLE_ADMIN"));
 
 	}

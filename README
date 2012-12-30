@@ -17,5 +17,5 @@ mvn -Pstandalone -DskipTests=true clean package
 java -jar target/spring-security-mongodb-1.0.0-BUILD-SNAPSHOT.war
 visit localhost:8080
 
---Added thymeleaf-extras-springsecurity3: https://github.com/thymeleaf/thymeleaf-extras-springsecurity3
+-Added thymeleaf-extras-springsecurity3: https://github.com/thymeleaf/thymeleaf-extras-springsecurity3
 Updated context, html, and controller, in line with http://www.thymeleaf.org/springsecurity.html

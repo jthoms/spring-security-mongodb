@@ -7,17 +7,18 @@ import java.util.List;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.IndexDirection;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-//import org.springframework.data.mongodb.core.index.Indexed;
 
 @Document
 public class UserAccount {
 	
 	@Id
 	private String id;
-// does not currently work, see RepositoryTest.userDuplicate()
-//	@Indexed(name = "username" , unique = true, direction = IndexDirection.DESCENDING, dropDups = true)
+// does not currently work, needs indexOps in AbstractMongoTest.setup(), see RepositoryTest.userDuplicate()
+	@Indexed(name = "username" , unique = true, direction = IndexDirection.DESCENDING, sparse = true, dropDups = true)
 	private String username;
 	private String password;
 	private String firstname;

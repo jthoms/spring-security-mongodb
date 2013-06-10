@@ -13,9 +13,16 @@ Run: mvn clean jetty:run
 visit localhost:8080/spring-security-mongodb
 
 -Added standalone jetty war maven profile 
-mvn -Pstandalone -DskipTests=true clean package
+mvn -Pstandalone-jetty -DskipTests=true clean package
 java -jar target/spring-security-mongodb-1.0.0-BUILD-SNAPSHOT.war
 visit localhost:8080
 
 -Added thymeleaf-extras-springsecurity3: https://github.com/thymeleaf/thymeleaf-extras-springsecurity3
 Updated context, html, and controller, in line with http://www.thymeleaf.org/springsecurity.html
+
+-Added standalone tomcat jar maven profile
+(Thanks to Tomasz Nurkiewicz: http://nurkiewicz.blogspot.com/2012/11/standalone-web-application-with.html)
+
+mvn -Pstandalone-tomcat7 -DskipTests=true clean package
+java -jar target/spring-security-mongodb.jar
+visit localhost:8080

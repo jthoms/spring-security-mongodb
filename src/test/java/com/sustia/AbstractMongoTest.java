@@ -3,11 +3,10 @@ package com.sustia;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.Index;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.index.Index.Duplicates;
-import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -31,9 +30,9 @@ public abstract class AbstractMongoTest {
 		//clear all collections
 		mongoTemplate.dropCollection("role");
 		mongoTemplate.dropCollection("userAccount");
-		//see UserAccount.username definition: @Indexed does not work, but this does (sdm 1.1.1.RELEASE)
+		//see UserAccount.username definition: @Indexed does not work, but indexOps does (sdm 1.3.0.M1)
 		//see RepositoryTest.userDuplicate()
-		mongoTemplate.indexOps(UserAccount.class).ensureIndex(new Index().on("username", Order.DESCENDING).unique(Duplicates.DROP));
+		mongoTemplate.indexOps(UserAccount.class).ensureIndex(new Index().on("username", Direction.DESC).unique(Duplicates.DROP));
 		
 		//establish roles
 		userRole = new Role();

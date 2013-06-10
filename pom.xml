@@ -10,9 +10,9 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<spring.core.version>3.2.2.RELEASE</spring.core.version>
-		<spring.security.version>3.1.4.RELEASE</spring.security.version>
-		<spring.data.mongodb.version>1.2.1.RELEASE</spring.data.mongodb.version>
+		<spring.core.version>3.2.3.RELEASE</spring.core.version>
+		<spring.security.version>3.2.0.CI-SNAPSHOT</spring.security.version>
+		<spring.data.mongodb.version>1.3.0.M1</spring.data.mongodb.version>
 
 		<aspectj.version>1.7.2</aspectj.version>
 		<commons-lang3.version>3.1</commons-lang3.version>
@@ -21,24 +21,26 @@
 		<logback.version>1.0.11</logback.version>
 
 		<javax.servlet-api.version>2.5</javax.servlet-api.version>
-		<jackson.version>2.1.4</jackson.version>
-    	<thymeleaf.version>2.0.16</thymeleaf.version>
+		<jackson.version>2.2.1</jackson.version>
+    	<thymeleaf.version>2.0.17</thymeleaf.version>
 		<thymeleafspringsecurity3.version>2.0.0</thymeleafspringsecurity3.version>
 
 		<hamcrest.version>1.3</hamcrest.version>
 		<junit.version>4.11</junit.version>
 
-		<maven.war.plugin.version>2.2</maven.war.plugin.version>
-		<maven.shade.plugin.version>1.6</maven.shade.plugin.version>
-		<maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
+		<maven.war.plugin.version>2.3</maven.war.plugin.version>
+		<maven.tomcat7.plugin.version>2.1</maven.tomcat7.plugin.version>
+		<maven.shade.plugin.version>2.0</maven.shade.plugin.version>
+		<maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
 		<maven.apt.plugin.version>1.0</maven.apt.plugin.version>
 		
-		<jetty.version>8.1.8.v20121106</jetty.version>
+		<jetty.version>9.0.3.v20130506</jetty.version>
+		<tomcat7.version>7.0.40</tomcat7.version>
 	</properties>
 	
     <profiles>
     	<profile>
-			<id>standalone</id>
+			<id>standalone-jetty</id>
     		<dependencies>
 		        <dependency>
 		        	<groupId>org.eclipse.jetty</groupId>
@@ -119,6 +121,40 @@
     			</plugins>
     		</build>
     	</profile>
+    	<profile>
+			<id>standalone-tomcat7</id>
+    		<dependencies>
+              <dependency>
+                  <groupId>org.apache.tomcat</groupId>
+                  <artifactId>tomcat-servlet-api</artifactId>
+                  <version>${tomcat7.version}</version>
+                </dependency>
+    		</dependencies>
+    		<build>
+	    		<plugins>
+					<plugin>
+						<groupId>org.apache.tomcat.maven</groupId>
+						<artifactId>tomcat7-maven-plugin</artifactId>
+						<version>${maven.tomcat7.plugin.version}</version>
+						<executions>
+							<execution>
+								<id>tomcat-run</id>
+								<goals>
+									<goal>exec-war-only</goal>
+								</goals>
+								<phase>package</phase>
+								<configuration>
+									<path>/</path>
+									<enableNaming>false</enableNaming>
+									<finalName>spring-security-mongodb.jar</finalName>
+									<charset>utf-8</charset>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
     </profiles>
 
 	<dependencies>
@@ -382,6 +418,11 @@
 			<id>spring-release</id>
 			<name>Spring Maven Release Repository</name>
 			<url>http://repo.springsource.org/libs-release</url>
+		</repository>
+		<repository>
+			<id>spring-milestone</id>
+			<name>Spring Maven MILESTONE Repository</name>
+			<url>http://repo.springsource.org/libs-milestone</url>
 		</repository>
 		<repository>
 			<id>spring-snapshot</id>

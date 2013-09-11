@@ -16,15 +16,13 @@ import com.sustia.domain.UserAccount;
 
 public class RepositoryTest extends AbstractMongoTest {
 	
-	@Autowired
-	private UserAccountRepository userRepository;
+	@Autowired private UserAccountRepository userRepository;
 
 	
-	@Autowired
-	private RoleRepository roleRepository;
+	@Autowired private RoleRepository roleRepository;
 	
-	UserAccount jdoe;
-	String id;
+	private UserAccount jdoe;
+	private String id;
 	
 	@Before
 	public void setUp() {
@@ -36,13 +34,13 @@ public class RepositoryTest extends AbstractMongoTest {
 	}
 	
 	@Test
-	public void Roles() throws Exception {
+	public void rolesCount() throws Exception {
 		List<Role> roles = roleRepository.findAll();
 		assertThat(roles.size(), is(3));
 	}
 	
 	@Test
-	public void RolesDuplicate() throws Exception {
+	public void rolesDuplicate() throws Exception {
 		List<Role> roles = roleRepository.findAll();
 		assertThat(roles.size(), is(3));
 		
@@ -98,7 +96,7 @@ public class RepositoryTest extends AbstractMongoTest {
 	public void userDuplicate() throws Exception {
 		UserAccount jdoe2 = new UserAccount();
 		jdoe2.setUsername("jdoe");
-		//unique index, should drop silently, @Indexed does not work
+		//@Indexed unique index should drop duplicates silently, requires mongoTemplate.indexOps(UserAccount.class).ensureIndex
 		userRepository.save(jdoe2);
 		
 		List<UserAccount> users = userRepository.findAll();
@@ -128,7 +126,7 @@ public class RepositoryTest extends AbstractMongoTest {
 		assertThat(users.size(), is(0));
 		users = userRepository.findByPasswordAndUsername(super.testPasswordEncoded, "jd");
 		assertThat(users.size(), is(0));
-		// this case fails in sdm 1.1.0.BUILD-SNAPSHOT and 1.0.2
+
 		users = userRepository.findByUsernameAndPassword("jd", super.testPasswordEncoded);
 		assertThat(users.size(), is(0));
 		

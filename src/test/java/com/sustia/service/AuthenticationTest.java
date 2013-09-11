@@ -1,6 +1,8 @@
 package com.sustia.service;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
@@ -8,8 +10,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.sustia.AbstractMongoTest;
 import com.sustia.UserAccountStatus;
@@ -17,16 +19,11 @@ import com.sustia.domain.UserAccount;
 
 public class AuthenticationTest extends AbstractMongoTest {
 
-	@Autowired
-	private LocalAuthenticationProvider localAuthenticationProvider;
+	@Autowired private LocalAuthenticationProvider localAuthenticationProvider;
 	
-    @Autowired
-    private PasswordEncoder encoder;
-    
-	@Autowired
-	private UserService userService;
+	@Autowired private UserService userService;
 	
-	UserAccount jdoe;
+	private UserAccount jdoe;
 	
 	@Before
 	public void setUp() {
@@ -46,8 +43,8 @@ public class AuthenticationTest extends AbstractMongoTest {
 	public void validAuthentication() throws Exception {
 		assertThat(localAuthenticationProvider, is(notNullValue()));
 		assertThat(encoder, is(notNullValue()));
-		assertThat(encoder.encodePassword("test", null), is(super.testPasswordEncoded));
-		
+		assertThat(encoder.matches("test", super.testPasswordEncoded), is(true));
+
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("jdoe", "test");
 
         UserDetails user = localAuthenticationProvider.retrieveUser("jdoe", token);
@@ -62,7 +59,7 @@ public class AuthenticationTest extends AbstractMongoTest {
         assertThat(user, is(nullValue()));
 	}
 	
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = UsernameNotFoundException.class)
     public void invalidAuthenticationUsername() {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("jdo", "test");
         UserDetails user = localAuthenticationProvider.retrieveUser("jdo", token);

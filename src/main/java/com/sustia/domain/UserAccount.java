@@ -17,9 +17,10 @@ public class UserAccount {
 	
 	@Id
 	private String id;
-// does not currently work, needs indexOps in AbstractMongoTest.setup(), see RepositoryTest.userDuplicate()
+
 	@Indexed(name = "username" , unique = true, direction = IndexDirection.DESCENDING, sparse = true, dropDups = true)
 	private String username;
+	
 	private String password;
 	private String firstname;
 	private String lastname;

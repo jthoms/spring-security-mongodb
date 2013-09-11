@@ -18,11 +18,9 @@ import com.sustia.domain.UserAccount;
 @ActiveProfiles("DEV")
 public class DataInitializerTest {
 
-	@Autowired
-	private DataInitializer initializer;
+	@Autowired private DataInitializer initializer;
 	
-	@Autowired
-	private UserService service;
+	@Autowired private UserService service;
 
 	@Test
 	public void testInitializer() throws Exception {

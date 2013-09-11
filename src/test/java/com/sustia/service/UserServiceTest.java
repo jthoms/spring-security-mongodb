@@ -13,8 +13,7 @@ import com.sustia.domain.UserAccount;
 
 public class UserServiceTest extends AbstractMongoTest {
 
-	@Autowired
-	private UserService service;
+	@Autowired private UserService service;
 	
 	@Before
 	public void setUp() {

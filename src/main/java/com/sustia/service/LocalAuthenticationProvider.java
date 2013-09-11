@@ -8,12 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -30,16 +31,13 @@ public class LocalAuthenticationProvider extends AbstractUserDetailsAuthenticati
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Autowired
-    UserService userService;
+	@Autowired UserService userService;
 	
-    @Autowired
-    private transient PasswordEncoder encoder = null;
+    @Autowired private PasswordEncoder encoder;
 
 	@Override
 	protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication)
 			throws AuthenticationException {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -51,11 +49,17 @@ public class LocalAuthenticationProvider extends AbstractUserDetailsAuthenticati
             throw new BadCredentialsException("Please enter password");
         }
 
-        UserAccount user = userService.getByUsernameAndPassword(username, encoder.encodePassword(password, null));
+        UserAccount user = userService.getByUsername(username);
         if (user == null) {
-        	logger.warn("Username {}, password {}: username and password not found", username, password);
-            throw new BadCredentialsException("Invalid Username/Password");
+        	logger.warn("Username {} password {}: user not found", username, password);
+            throw new UsernameNotFoundException("Invalid Login");
         }
+        
+        if (!encoder.matches(password, user.getPassword())) {
+        	logger.warn("Username {} password {}: invalid password", username, password);
+            throw new BadCredentialsException("Invalid Login");
+        }
+        
         if (!(UserAccountStatus.STATUS_APPROVED.name().equals(user.getStatus()))) {
         	logger.warn("Username {}: not approved", username);
             throw new BadCredentialsException("User has not been approved");

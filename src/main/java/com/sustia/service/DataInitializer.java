@@ -7,9 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.index.Index;
-import org.springframework.data.mongodb.core.index.Index.Duplicates;
-import org.springframework.data.mongodb.core.query.Order;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Component;
 
 import com.sustia.UserAccountStatus;
@@ -22,22 +21,20 @@ public class DataInitializer {
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Autowired
-	private MongoTemplate mongoTemplate;
+	@Autowired private MongoTemplate mongoTemplate;
 	
-	@Autowired
-	private UserService userService;
+	@Autowired private UserService userService;
 	
-	String demoPasswordEncoded = "2a97516c354b68848cdbd8f54a226a0a55b21ed138e207ad6c5cbb9c00aa5aea";
+    @Autowired private PasswordEncoder encoder; 
 	
 	@PostConstruct
 	public void init() {
-		logger.debug("initializing data");
+		String demoPasswordEncoded = encoder.encode("demo");
+		logger.debug("initializing data, demo password encoded: {}", demoPasswordEncoded);
 		
 		//clear all collections
 		mongoTemplate.dropCollection("role");
 		mongoTemplate.dropCollection("userAccount");
-		mongoTemplate.indexOps(UserAccount.class).ensureIndex(new Index().on("username", Order.DESCENDING).unique(Duplicates.DROP));
 		
 		//establish roles
 		mongoTemplate.insert(new Role("ROLE_USER"), "role");

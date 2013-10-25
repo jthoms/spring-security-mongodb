@@ -18,7 +18,7 @@ public class UserAccount {
 	@Id
 	private String id;
 
-	@Indexed(name = "username" , unique = true, direction = IndexDirection.DESCENDING, sparse = true, dropDups = true)
+	@Indexed(name = "username" , unique = true, direction = IndexDirection.DESCENDING, sparse = true, background = false, dropDups = true)
 	private String username;
 	
 	private String password;

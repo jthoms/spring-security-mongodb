@@ -10,22 +10,22 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<spring.core.version>3.2.4.RELEASE</spring.core.version>
-		<spring.security.version>3.2.0.RC1</spring.security.version>
-		<spring.data.mongodb.version>1.3.2.RELEASE</spring.data.mongodb.version>
+		<spring.core.version>3.2.5.RELEASE</spring.core.version>
+		<spring.security.version>3.2.0.RC2</spring.security.version>
+		<spring.data.mongodb.version>1.4.0.M1</spring.data.mongodb.version>
 
-		<aspectj.version>1.7.3</aspectj.version>
-		<commons-lang3.version>3.1</commons-lang3.version>
-		<mongodb.driver.version>2.11.3</mongodb.driver.version>
-		<slf4j.version>1.7.5</slf4j.version>
-		<logback.version>1.0.13</logback.version>
+		<aspectj.version>LATEST</aspectj.version>
+		<commons-lang3.version>LATEST</commons-lang3.version>
+		<mongodb.driver.version>LATEST</mongodb.driver.version>
+		<slf4j.version>LATEST</slf4j.version>
+		<logback.version>LATEST</logback.version>
 
-		<jackson.version>2.2.3</jackson.version>
-    	<thymeleaf.version>2.0.18</thymeleaf.version>
-		<thymeleafspringsecurity3.version>2.0.1</thymeleafspringsecurity3.version>
+		<jackson.version>LATEST</jackson.version>
+    	<thymeleaf.version>LATEST</thymeleaf.version>
+		<thymeleafspringsecurity3.version>LATEST</thymeleafspringsecurity3.version>
 
-		<hamcrest.version>1.3</hamcrest.version>
-		<junit.version>4.11</junit.version>
+		<hamcrest.version>LATEST</hamcrest.version>
+		<junit.version>LATEST</junit.version>
 
 		<maven.war.plugin.version>2.3</maven.war.plugin.version>
 		<maven.tomcat7.plugin.version>2.1</maven.tomcat7.plugin.version>
@@ -34,7 +34,7 @@
 		<maven.apt.plugin.version>1.0</maven.apt.plugin.version>
 		
 		<jetty.version>9.0.3.v20130506</jetty.version>
-		<tomcat7.version>7.0.42</tomcat7.version>
+		<tomcat7.version>7.0.47</tomcat7.version>
 	</properties>
 	
     <profiles>
@@ -408,27 +408,25 @@
 
 	<repositories>
 		<repository>
-			<id>spring-release</id>
-			<name>Spring Maven Release Repository</name>
-			<url>http://repo.springsource.org/libs-release</url>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>http://repo.spring.io/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
 		</repository>
 		<repository>
-			<id>spring-milestone</id>
-			<name>Spring Maven MILESTONE Repository</name>
-			<url>http://repo.springsource.org/libs-milestone</url>
-		</repository>
-		<repository>
-			<id>spring-snapshot</id>
-			<name>Spring Maven SNAPSHOT Repository</name>
-			<url>http://repo.springsource.org/libs-snapshot</url>
-		</repository>
-		<repository>
-			<id>sonatype-nexus-releases</id>
-			<name>Sonatype Nexus Releases</name>
-			<url>https://oss.sonatype.org/content/repositories/releases</url>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>http://repo.spring.io/milestone</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-release</id>
+			<name>Spring Releases</name>
+			<url>http://repo.spring.io/release</url>
 		</repository>
 	</repositories>
 </project>

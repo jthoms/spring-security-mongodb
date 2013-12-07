@@ -6,9 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.stereotype.Component;
 
 import com.sustia.UserAccountStatus;
@@ -21,24 +20,25 @@ public class DataInitializer {
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Autowired private MongoTemplate mongoTemplate;
+	@Autowired private MongoOperations operations;
 	
 	@Autowired private UserService userService;
 	
     @Autowired private PasswordEncoder encoder; 
+    
+    @Autowired protected DbService dbService;
 	
 	@PostConstruct
 	public void init() {
 		String demoPasswordEncoded = encoder.encode("demo");
 		logger.debug("initializing data, demo password encoded: {}", demoPasswordEncoded);
 		
-		//clear all collections
-		mongoTemplate.dropCollection("role");
-		mongoTemplate.dropCollection("userAccount");
+		//clear all collections, but leave indexes intact
+		dbService.cleanUp();
 		
 		//establish roles
-		mongoTemplate.insert(new Role("ROLE_USER"), "role");
-		mongoTemplate.insert(new Role("ROLE_ADMIN"), "role");
+		operations.insert(new Role("ROLE_USER"), "role");
+		operations.insert(new Role("ROLE_ADMIN"), "role");
 		
 		UserAccount user = new UserAccount();
 		user.setFirstname("Bob");

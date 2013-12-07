@@ -18,7 +18,6 @@ public class RepositoryTest extends AbstractMongoTest {
 	
 	@Autowired private UserAccountRepository userRepository;
 
-	
 	@Autowired private RoleRepository roleRepository;
 	
 	private UserAccount jdoe;
@@ -96,9 +95,8 @@ public class RepositoryTest extends AbstractMongoTest {
 	public void userDuplicate() throws Exception {
 		UserAccount jdoe2 = new UserAccount();
 		jdoe2.setUsername("jdoe");
-		//@Indexed unique index should drop duplicates silently, requires mongoTemplate.indexOps(UserAccount.class).ensureIndex
 		userRepository.save(jdoe2);
-		
+
 		List<UserAccount> users = userRepository.findAll();
 		assertThat(users.size(), is(1));
 		UserAccount user = userRepository.findByUsername("jdoe");

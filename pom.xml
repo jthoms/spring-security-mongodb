@@ -20,7 +20,7 @@
 		<commons-lang3.version>LATEST</commons-lang3.version>
 		<mongodb.driver.version>LATEST</mongodb.driver.version>
 		<slf4j.version>LATEST</slf4j.version>
-		<logback.version>LATEST</logback.version>
+		<logback.version>1.2.0</logback.version>
 
 		<jackson.version>LATEST</jackson.version>
     		<thymeleaf.version>LATEST</thymeleaf.version>

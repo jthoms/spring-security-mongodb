@@ -22,7 +22,7 @@
 		<slf4j.version>LATEST</slf4j.version>
 		<logback.version>LATEST</logback.version>
 
-		<jackson.version>LATEST</jackson.version>
+		<jackson.version>2.12.6.1</jackson.version>
     		<thymeleaf.version>LATEST</thymeleaf.version>
 		<thymeleafspringsecurity3.version>LATEST</thymeleafspringsecurity3.version>
 
